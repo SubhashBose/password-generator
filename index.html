@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>Password Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 @import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
 
@@ -18,6 +19,7 @@ body {
 	justify-content: center;
 	padding: 10px;
 	min-height: 100vh;
+	margin:0;
 }
 
 p {
@@ -50,7 +52,7 @@ input[type=checkbox] {
 	font-size: 18px;
 	letter-spacing: 1px;
 	padding: 12px 10px;
-	height: 50px;
+	min-height: 50px;
 	width: 100%;
 }
 
@@ -89,172 +91,19 @@ input[type=checkbox] {
 	margin: 15px 0;
 }
 
+sym {
+color: #fbacac;
+}
+num {
+color: #8cf5ff;
+}
+
 @media screen and (max-width: 400px) {
 	.result-container {
 		font-size: 14px;
 	}
 }
 
-/* SOCIAL PANEL CSS */
-.social-panel-container {
-	position: fixed;
-	right: 0;
-	bottom: 80px;
-	transform: translateX(100%);
-	transition: transform 0.4s ease-in-out;
-}
-
-.social-panel-container.visible {
-	transform: translateX(-10px);
-}
-
-.social-panel {	
-	background-color: #fff;
-	border-radius: 16px;
-	box-shadow: 0 16px 31px -17px rgba(0,31,97,0.6);
-	border: 5px solid #001F61;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	font-family: 'Muli';
-	position: relative;
-	height: 169px;	
-	width: 370px;
-	max-width: calc(100% - 10px);
-}
-
-.social-panel button.close-btn {
-	border: 0;
-	color: #97A5CE;
-	cursor: pointer;
-	font-size: 20px;
-	position: absolute;
-	top: 5px;
-	right: 5px;
-}
-
-.social-panel button.close-btn:focus {
-	outline: none;
-}
-
-.social-panel p {
-	background-color: #001F61;
-	border-radius: 0 0 10px 10px;
-	color: #fff;
-	font-size: 14px;
-	line-height: 18px;
-	padding: 2px 17px 6px;
-	position: absolute;
-	top: 0;
-	left: 50%;
-	margin: 0;
-	transform: translateX(-50%);
-	text-align: center;
-	width: 235px;
-}
-
-.social-panel p i {
-	margin: 0 5px;
-}
-
-.social-panel p a {
-	color: #FF7500;
-	text-decoration: none;
-}
-
-.social-panel h4 {
-	margin: 20px 0;
-	color: #97A5CE;	
-	font-family: 'Muli';	
-	font-size: 14px;	
-	line-height: 18px;
-	text-transform: uppercase;
-}
-
-.social-panel ul {
-	display: flex;
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-}
-
-.social-panel ul li {
-	margin: 0 10px;
-}
-
-.social-panel ul li a {
-	border: 1px solid #DCE1F2;
-	border-radius: 50%;
-	color: #001F61;
-	font-size: 20px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 50px;
-	width: 50px;
-	text-decoration: none;
-}
-
-.social-panel ul li a:hover {
-	border-color: #FF6A00;
-	box-shadow: 0 9px 12px -9px #FF6A00;
-}
-
-.floating-btn {
-	border-radius: 26.5px;
-	background-color: #001F61;
-	border: 1px solid #001F61;
-	box-shadow: 0 16px 22px -17px #03153B;
-	color: #fff;
-	cursor: pointer;
-	font-size: 16px;
-	line-height: 20px;
-	padding: 12px 20px;
-	position: fixed;
-	bottom: 20px;
-	right: 20px;
-	z-index: 999;
-}
-
-.floating-btn:hover {
-	background-color: #ffffff;
-	color: #001F61;
-}
-
-.floating-btn:focus {
-	outline: none;
-}
-
-.floating-text {
-	background-color: #001F61;
-	border-radius: 10px 10px 0 0;
-	color: #fff;
-	font-family: 'Muli';
-	padding: 7px 15px;
-	position: fixed;
-	bottom: 0;
-	left: 50%;
-	transform: translateX(-50%);
-	text-align: center;
-	z-index: 998;
-}
-
-.floating-text a {
-	color: #FF7500;
-	text-decoration: none;
-}
-
-@media screen and (max-width: 480px) {
-
-	.social-panel-container.visible {
-		transform: translateX(0px);
-	}
-	
-	.floating-btn {
-		right: 10px;
-	}
-}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
 
@@ -270,8 +119,8 @@ input[type=checkbox] {
 	</div>
 	<div class="settings">
 		<div class="setting">
-			<label>Password length</label>
-			<input type="number" id="length" min='4' max='20' value='20' />
+			<label>Password length:</label> <span id="shlen"></span>
+			<input type="range" id="length" min="4" max="128" value="12" class="slider">
 		</div>
 		<div class="setting">
 			<label>Include uppercase letters</label> 
@@ -289,20 +138,33 @@ input[type=checkbox] {
 			<label>Include symbols</label> 
 			<input type="checkbox" id="symbols" checked />
 		</div>
+		<div class="setting">
+			<label>Avoid ambiguous characters</label> 
+			<input type="checkbox" id="nonamb" />
+		</div>
 	</div>
 	<button class="btn btn-large" id="generate">
-		Generate password
+		Regenerate password
 	</button>
 </div>
 
 </div>
 <script>
+var slider = document.getElementById("length");
+var output = document.getElementById("shlen");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value;
+}
+
 const resultEl = document.getElementById('result');
 const lengthEl = document.getElementById('length');
 const uppercaseEl = document.getElementById('uppercase');
 const lowercaseEl = document.getElementById('lowercase');
 const numbersEl = document.getElementById('numbers');
 const symbolsEl = document.getElementById('symbols');
+const nonambEl = document.getElementById('nonamb');
 const generateEl = document.getElementById('generate');
 const clipboard = document.getElementById('clipboard');
 
@@ -327,18 +189,26 @@ clipboard.addEventListener('click', () => {
 	alert('Password copied to clipboard');
 });
 
-generate.addEventListener('click', () => {
+window.addEventListener("load", process);
+generate.addEventListener('click', process);
+lengthEl.addEventListener('change', process);
+uppercaseEl.addEventListener('change', process);
+lowercaseEl.addEventListener('change', process);
+numbersEl.addEventListener('change', process);
+symbolsEl.addEventListener('change', process);
+nonambEl.addEventListener('change', process);
+
+function process(){
 	const length = +lengthEl.value;
 	const hasLower = lowercaseEl.checked;
 	const hasUpper = uppercaseEl.checked;
 	const hasNumber = numbersEl.checked;
 	const hasSymbol = symbolsEl.checked;
 	
-	resultEl.innerText = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol, length);
-});
+	resultEl.innerHTML = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol, length);
+}
 
 function generatePassword(lower, upper, number, symbol, length) {
-	let generatedPassword = '';
 	const typesCount = lower + upper + number + symbol;
 	const typesArr = [{lower}, {upper}, {number}, {symbol}].filter(item => Object.values(item)[0]);
 	
@@ -347,49 +217,41 @@ function generatePassword(lower, upper, number, symbol, length) {
 		return '';
 	}
 	
+	let generatedPassword = typesArr.map(item => randomFunc[Object.keys(item)[0]]());
+	
 	// create a loop
-	for(let i=0; i<length; i+=typesCount) {
-		typesArr.forEach(type => {
-			const funcName = Object.keys(type)[0];
-			generatedPassword += randomFunc[funcName]();
-		});
+	for(let i=0; i<length-typesArr.length; i++) {
+		funcName=Object.keys(typesArr[Math.floor(Math.random() * typesArr.length)])[0]
+		generatedPassword.push(randomFunc[funcName]())
 	}
 	
-	const finalPassword = generatedPassword.slice(0, length);
+	//const trimmed = generatedPassword.slice(0, length); 
 	
-	return finalPassword;
+	const shuffled=generatedPassword.sort(function(){return 0.5-Math.random()})
+	
+	return shuffled.join('');
 }
 
 function getRandomLower() {
-	return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
+	charset='abcdefhijkmnpqrstuvwxyz'+(nonambEl.checked? '':'glo')
+	return charset[Math.floor(Math.random() * charset.length)];
 }
 
 function getRandomUpper() {
-	return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+	charset='ACDEFGHJKLMNPQRSTUVWXYZ'+(nonambEl.checked? '':'BIO')
+	return charset[Math.floor(Math.random() * charset.length)];
 }
 
 function getRandomNumber() {
-	return +String.fromCharCode(Math.floor(Math.random() * 10) + 48);
+	charset='234567'+(nonambEl.checked? '':'8901')
+	return '<num>'+charset[Math.floor(Math.random() * charset.length)]+'</num>';
 }
 
 function getRandomSymbol() {
-	const symbols = '!@#$%^&*(){}[]=<>/,.'
-	return symbols[Math.floor(Math.random() * symbols.length)];
+	const charset = '!@#$%^&*(){}[]=<>/'
+	return '<sym>'+charset[Math.floor(Math.random() * charset.length)]+'</sym>';
 }
 
-
-// SOCIAL PANEL JS
-const floating_btn = document.querySelector('.floating-btn');
-const close_btn = document.querySelector('.close-btn');
-const social_panel_container = document.querySelector('.social-panel-container');
-
-floating_btn.addEventListener('click', () => {
-	social_panel_container.classList.toggle('visible')
-});
-
-close_btn.addEventListener('click', () => {
-	social_panel_container.classList.remove('visible')
-});
 </script>
 </body>
 </html>
