@@ -92,6 +92,28 @@ input[type=checkbox] {
 	margin: 15px 0;
 }
 
+#length{
+    background-color: transparent;
+    color: inherit;
+    border: 0;
+    width: 2em;
+    font-size: inherit;
+    text-align: center;
+    font-family: inherit;
+    flex-grow: 1;
+    padding: 0;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 sym {
 color: #fbacac;
 }
@@ -120,8 +142,9 @@ color: #8cf5ff;
 	</div>
 	<div class="settings">
 		<div class="setting">
-			<label>Password length:</label> <span id="shlen"></span>
-			<input type="range" id="length" min="4" max="128" value="12" class="slider">
+			<label>Password length:</label>
+			<input type="number" id="length" value="12"/>
+			<input type="range" id="lenslider" min="4" max="128" class="slider">
 		</div>
 		<div class="setting">
 			<label>Include uppercase letters</label> 
@@ -151,13 +174,12 @@ color: #8cf5ff;
 
 </div>
 <script>
-var slider = document.getElementById("length");
-var output = document.getElementById("shlen");
-output.innerHTML = slider.value;
+var lenslider = document.getElementById("lenslider");
+var shlen = document.getElementById("length");
+lenslider.value = shlen.value;
 
-slider.oninput = function() {
-  output.innerHTML = this.value;
-}
+lenslider.oninput = function() { shlen.value = this.value;}
+shlen.oninput = function() { lenslider.value = this.value;}
 
 const resultEl = document.getElementById('result');
 const lengthEl = document.getElementById('length');
@@ -168,6 +190,7 @@ const symbolsEl = document.getElementById('symbols');
 const nonambEl = document.getElementById('nonamb');
 const generateEl = document.getElementById('generate');
 const clipboard = document.getElementById('clipboard');
+const lensliderEl = document.getElementById('lenslider');
 
 const randomFunc = {
 	lower: getRandomLower,
@@ -198,6 +221,8 @@ lowercaseEl.addEventListener('change', process);
 numbersEl.addEventListener('change', process);
 symbolsEl.addEventListener('change', process);
 nonambEl.addEventListener('change', process);
+nonambEl.addEventListener('change', process);
+lensliderEl.addEventListener('change', process);
 
 function process(){
 	const length = +lengthEl.value;
@@ -234,17 +259,17 @@ function generatePassword(lower, upper, number, symbol, length) {
 }
 
 function getRandomLower() {
-	charset='abcdefhijkmnpqrstuvwxyz'+(nonambEl.checked? '':'glo')
+	const charset='abcdefhijkmnpqrstuvwxyz'+(nonambEl.checked? '':'glo')
 	return charset[Math.floor(Math.random() * charset.length)];
 }
 
 function getRandomUpper() {
-	charset='ACDEFGHJKLMNPQRSTUVWXYZ'+(nonambEl.checked? '':'BIO')
+	const charset='ACDEFGHJKLMNPQRSTUVWXYZ'+(nonambEl.checked? '':'BIO')
 	return charset[Math.floor(Math.random() * charset.length)];
 }
 
 function getRandomNumber() {
-	charset='234567'+(nonambEl.checked? '':'8901')
+	const charset='234567'+(nonambEl.checked? '':'8901')
 	return '<num>'+charset[Math.floor(Math.random() * charset.length)]+'</num>';
 }
 
