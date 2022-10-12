@@ -98,20 +98,10 @@ input[type=checkbox] {
     border: 0;
     width: 2em;
     font-size: inherit;
-    text-align: center;
+    text-align: right;
     font-family: inherit;
     flex-grow: 1;
     padding: 0;
-}
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
 }
 
 sym {
@@ -215,14 +205,14 @@ clipboard.addEventListener('click', () => {
 
 window.addEventListener("load", process);
 generate.addEventListener('click', process);
-lengthEl.addEventListener('change', process);
 uppercaseEl.addEventListener('change', process);
 lowercaseEl.addEventListener('change', process);
 numbersEl.addEventListener('change', process);
 symbolsEl.addEventListener('change', process);
 nonambEl.addEventListener('change', process);
 nonambEl.addEventListener('change', process);
-lensliderEl.addEventListener('change', process);
+lengthEl.addEventListener('input', process);
+lensliderEl.addEventListener('input', process);
 
 function process(){
 	const length = +lengthEl.value;
