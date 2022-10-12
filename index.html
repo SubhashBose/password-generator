@@ -104,6 +104,12 @@ input[type=checkbox] {
     padding: 0;
 }
 
+.notice{
+font-size: 0.7em;
+color: #6092eb;
+text-align: justify;
+}
+
 sym {
 color: #fbacac;
 }
@@ -130,6 +136,7 @@ color: #8cf5ff;
 			<i class="far fa-copy"></i>
 		</button>
 	</div>
+	<div class="notice">Note: The password is generated in your browser locally and is not transmitted or stored anywehere else.</div>
 	<div class="settings">
 		<div class="setting">
 			<label>Password length:</label>
@@ -226,7 +233,9 @@ function process(){
 
 function generatePassword(lower, upper, number, symbol, length) {
 	const typesCount = lower + upper + number + symbol;
-	const typesArr = [{lower}, {upper}, {number}, {symbol}].filter(item => Object.values(item)[0]);
+	let typesArr = [{lower}, {upper}, {lower}, {upper}].filter(item => Object.values(item)[0]).slice(0, 2)
+	typesArr=typesArr.concat([{number}, {symbol}]).filter(item => Object.values(item)[0]);
+	console.log(typesArr)
 	
 	// Doesn't have a selected type
 	if(typesCount === 0) {
